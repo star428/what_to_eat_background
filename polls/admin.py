@@ -2,6 +2,8 @@ from django.contrib import admin
 
 # Register your models here.
 from django.contrib import admin
+from django.utils.safestring import mark_safe
+
 from .models import Comments, Favorite, Menu, Shop, ShopTag, Tag, UserReference, Users
 
 admin.site.site_header = '今天吃什么后台'  # 设置header
@@ -56,7 +58,8 @@ admin.site.register(UserReference, UserReferenceAdmin)
 
 class UsersAdmin(admin.ModelAdmin):
     # fields = ['tag_id', 'tag_name']
-    list_display = ('user_id', 'username', 'email', 'user_pic', 'image_data')
+    list_display = ('user_id', 'username', 'email', 'user_pic','image_data')
+    readonly_fields = ('image_data',)
 
 
 admin.site.register(Users, UsersAdmin)

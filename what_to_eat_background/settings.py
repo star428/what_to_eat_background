@@ -128,12 +128,15 @@ INSTALLED_APPS = [
 
     'polls.apps.PollsConfig',
 
+    'rest_framework',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
 ]
 
 MIDDLEWARE = [
@@ -233,9 +236,20 @@ STATIC_URL = '/static/'
 
 MEDIA_URL = "/media/"   # 媒体文件别名(相对路径) 和 绝对路径
 MEDIA_ROOT = (
-    os.path.join(BASE_DIR, 'polls/media')
+    os.path.join(BASE_DIR, 'media/')
 )
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAdminUser',
+    ],
+}
+
+# 尝试让post能够访问
+CORS_ALLOW_CREDENTIALS = True

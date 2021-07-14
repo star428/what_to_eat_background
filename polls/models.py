@@ -6,6 +6,8 @@
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the tabl
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
+from django.db.models.signals import pre_delete
+from django.dispatch import receiver
 from django.utils.html import format_html
 
 
@@ -96,18 +98,25 @@ class Users(models.Model):
     tel = models.CharField(max_length=32)
     settings = models.CharField(max_length=255, blank=True, null=True)
     email = models.CharField(max_length=255, blank=True, null=True)
-    user_pic = models.CharField(max_length=255, blank=True, null=True) # changed
+    user_pic = models.ImageField(upload_to="user_pic/%y/%m", max_length=255, blank=True, null=True) # changed
+
 
     ###################
     def image_data(self):
         return format_html(
-            '<img src="{}" width="100px"/>',
-            self.user_pic,
+            '<img src="{}" width="50px"/>',
+            self.user_pic.url,
         )
 
-    image_data.short_description = u'图片'
+    image_data.short_description = u'个人头像'
+
     ###################
     class Meta:
         managed = False
         db_table = 'users'
 
+
+@receiver(pre_delete, sender=Users) #sender=你要删除或修改文件字段所在的类**
+def file_delete(instance, **kwargs):       #函数名随意
+    print('进入文件删除方法，删的是',instance.user_pic)  #用于测试
+    instance.user_pic.delete(False) #file是保存文件或图片的字段名**
