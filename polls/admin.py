@@ -26,13 +26,15 @@ admin.site.register(Favorite, FavoriteAdmin)
 
 class MenuAdmin(admin.ModelAdmin):
     # fields = ['tag_id', 'tag_name']
-    list_display = ('shop', 'meal_name', 'meal_pic', 'meal_comment', 'meal_price', 'meal_id')
+    list_display = ('shop', 'meal_name', 'meal_pic', 'meal_comment', 'meal_price', 'meal_id','image_data')
+    readonly_fields =  ('image_data',)
 
 admin.site.register(Menu, MenuAdmin)
 ############################
 class ShopAdmin(admin.ModelAdmin):
     # fields = ['tag_id', 'tag_name']
-    list_display = ('shop_id', 'shop_name', 'shop_pic', 'shop_comment')
+    list_display = ('shop_id', 'shop_name', 'shop_pic', 'shop_comment','image_data')
+    readonly_fields = ('image_data',)
 
 admin.site.register(Shop, ShopAdmin)
 ################################

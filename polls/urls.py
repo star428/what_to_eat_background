@@ -32,9 +32,9 @@ urlpatterns = [
 
     # 例如: /polls/5/vote/
     path('<int:question_id>/vote/', views.vote, name='vote'),
-    
-    path('login/', views.login, name='login'),
 
     path('api-auth/', include('rest_framework.urls')),
+
+    path('login/', views.login, name='login'),
 ]
 

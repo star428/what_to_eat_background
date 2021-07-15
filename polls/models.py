@@ -38,11 +38,19 @@ class Favorite(models.Model):
 class Menu(models.Model):
     shop = models.ForeignKey('Shop', models.DO_NOTHING)
     meal_name = models.CharField(max_length=255)
-    meal_pic = models.CharField(max_length=255, blank=True, null=True)
+    meal_pic = models.ImageField(upload_to='meal_pic/%y/%m',max_length=255, blank=True, null=True)
     meal_comment = models.CharField(max_length=255, blank=True, null=True)
     meal_price = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
     meal_id = models.CharField(primary_key=True, max_length=32)
     sn = models.CharField(max_length=32, blank=True, null=True)
+
+    def image_data(self):
+        return format_html(
+            '<img src="{}" width="50px"/>',
+            self.meal_pic.url,
+        )
+
+    image_data.short_description = u'meal图像'
 
     class Meta:
         managed = False
@@ -52,8 +60,16 @@ class Menu(models.Model):
 class Shop(models.Model):
     shop_id = models.CharField(primary_key=True, max_length=32)
     shop_name = models.CharField(max_length=20, blank=True, null=True)
-    shop_pic = models.CharField(max_length=255, blank=True, null=True)
+    shop_pic = models.ImageField(upload_to="shop_pic/%y/%m",max_length=255, blank=True, null=True)
     shop_comment = models.CharField(max_length=255, blank=True, null=True)
+
+    def image_data(self):
+        return format_html(
+            '<img src="{}" width="50px"/>',
+            self.shop_pic.url,
+        )
+
+    image_data.short_description = u'商铺图像'
 
     class Meta:
         managed = False
@@ -98,8 +114,7 @@ class Users(models.Model):
     tel = models.CharField(max_length=32)
     settings = models.CharField(max_length=255, blank=True, null=True)
     email = models.CharField(max_length=255, blank=True, null=True)
-    user_pic = models.ImageField(upload_to="user_pic/%y/%m", max_length=255, blank=True, null=True) # changed
-
+    user_pic = models.ImageField(upload_to="user_pic/%y/%m", max_length=255, blank=True, null=True, default='user_pic/default.png') # changed
 
     ###################
     def image_data(self):
